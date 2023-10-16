@@ -27,15 +27,15 @@ namespace PRACTICA1
                 while (Console.KeyAvailable) s = (Console.ReadKey(true)).KeyChar.ToString();
 
                 //Movimiento del jugador en función del input
-                if (s == "w" && jugF < ALTO)
+                if (s == "w" && jugF > 0) // jugF tiene que ser mayor que 0
                 {
                     jugF--; //arriba
                 }
-                else if (s == "a" && jugC < ANCHO)
+                else if (s == "a" && jugC > 0)
                 {
                     jugC--; //izquierda
                 }
-                else if (s == "s" && jugF > ANCHO)
+                else if (s == "s" && jugF < ALTO)
                 {
                     jugF++; //abajo
                 }
@@ -51,7 +51,10 @@ namespace PRACTICA1
 
 
                 //Renderizado de entidades en consola
-
+                Console.Clear(); //limpia pantalla antes de un nuevo renderizado
+                Console.SetCursorPosition(jugC, jugF);
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write(0);
 
                 //Retardo entre frames
                 System.Threading.Thread.Sleep(delta);
