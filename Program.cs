@@ -12,26 +12,48 @@ namespace PRACTICA1
         public static void Main()
         {
             Console.SetWindowSize(ANCHO, ALTO); // tamaño de la consola
-            int jugF, jugC, // posición del jugador
-            abejaF, abejaC, // posición de la abeja
-            delta = 300; // retardo entre frames (ms)
-            bool colision = false; // colisión entre abeja y jugador
+            int jugF, jugC,                     // posición del jugador
+            abejaF, abejaC,                     // posición de la abeja
+            delta = 300;                        // retardo entre frames (ms)
+            bool colision = false;              // colisión entre abeja y jugador
 
-            while (true)
-            { // mientras no termine el juego
-              // recogida de de input
+            jugF = jugC = 0;                    //posicion inicial del player
+
+            bool terminado = false;
+            while (!terminado) //mientras no termine el juego
+            {
+                //recogida del input
                 string s = "";
                 while (Console.KeyAvailable) s = (Console.ReadKey(true)).KeyChar.ToString();
 
-                // movimiento del jugador (en función del input)
+                //Movimiento del jugador en función del input
+                if (s == "w" && jugF < ALTO)
+                {
+                    jugF--; //arriba
+                }
+                else if (s == "a" && jugC < ANCHO)
+                {
+                    jugC--; //izquierda
+                }
+                else if (s == "s" && jugF > ANCHO)
+                {
+                    jugF++; //abajo
+                }
+                else if (s == "d" && jugC < ANCHO)
+                {
+                    jugC++; //derecha
+                }
 
-                // movimiento aleatorio de la abeja
+                //Movimiento aleatorio de la abeja
 
-                // detección de colisión
 
-                // renderizado de las entidades en consola
+                //Detección de la colisión
 
-                // retardo entre frames
+
+                //Renderizado de entidades en consola
+
+
+                //Retardo entre frames
                 System.Threading.Thread.Sleep(delta);
             }
         }   
