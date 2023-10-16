@@ -27,7 +27,7 @@ namespace PRACTICA1
                 while (Console.KeyAvailable) s = (Console.ReadKey(true)).KeyChar.ToString();
 
                 //Movimiento del jugador en función del input
-                if (s == "w" && jugF > 0) // jugF tiene que ser mayor que 0
+                if (s == "w" && jugF > 0)
                 {
                     jugF--; //arriba
                 }
@@ -45,7 +45,7 @@ namespace PRACTICA1
                 }
 
                 //Movimiento aleatorio de la abeja
-
+                int direccion = rnd.Next(0,4); //random entre las 4 direcciones
 
                 //Detección de la colisión
 
@@ -55,6 +55,10 @@ namespace PRACTICA1
                 Console.SetCursorPosition(jugC, jugF);
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.Write(0);
+
+                //abeja (en proceso):
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write("+");
 
                 //Retardo entre frames
                 System.Threading.Thread.Sleep(delta);
