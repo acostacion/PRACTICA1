@@ -2,6 +2,7 @@
 // José Tomás Gómez Becerra
 
 using System.ComponentModel.Design;
+using System.Runtime.CompilerServices;
 
 namespace PRACTICA1
 {
@@ -27,23 +28,15 @@ namespace PRACTICA1
                  exit = false;                          // Finalizar el juego de forma forzosa.
 
             // Posicion inicial del player.
-            jugF = jugC = 0;   
-            
-            // La abeja aparece en una posición aleatoria.
-            abejaF = rnd.Next(0, ALTO);
-            abejaC = rnd.Next(0, ANCHO);
+            jugF = jugC = 0;
 
-            // Para que sea imposible que aparezca encima del player la abeja (mirar si esto se puede implementar dentro del bucle principal).
-            while (jugF == abejaF && jugC == abejaC)
-            {
-                abejaF = rnd.Next(0, ALTO);
-                abejaC = rnd.Next(0, ANCHO);
-            }
+            // La abeja aparece en una posición aleatoria.
+            abejaF = abejaC = 7;
 
             // Renderizado inicial.
             Console.Clear(); // Limpia pantalla antes de un nuevo renderizado.
             Console.SetCursorPosition(jugC, jugF);
-            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.Write(0);
 
             // Abeja (en proceso):
@@ -61,19 +54,19 @@ namespace PRACTICA1
                 exit = s == "q";
 
                 // Movimiento del jugador en función del input.
-                if (s == "w" && jugF > 0)
+                if ((s == "w" || s == "W") && jugF > 0)
                 {
                     jugF--; // Arriba.
                 }
-                else if (s == "a" && jugC > 0)
+                else if ((s == "a" || s == "A") && jugC > 0)
                 {
                     jugC--; // Izquierda.
                 }
-                else if (s == "s" && jugF < ALTO - 1)
+                else if ((s == "s" || s == "S") && jugF < ALTO - 1)
                 {
                     jugF++; // Abajo.
                 }
-                else if (s == "d" && jugC < ANCHO - 1)
+                else if ((s == "d" || s == "D") && jugC < ANCHO - 1)
                 {
                     jugC++; // Derecha.
                 }
@@ -83,31 +76,35 @@ namespace PRACTICA1
 
                 if (!colision)
                 {
-                    // Movimiento aleatorio de la abeja.
-                    //int direccion = rnd.Next(0, 4); // Random entre las 4 direcciones (0, 1, 2, 3). (Cuatro no se cuenta porque es [a, b).
-
-                    // IA de la Abeja.
                     // Vector dirección.
                     int vectorF = jugF - abejaF,
                         vectorC = jugC - abejaC;
-                    
-                    if(vectorF < 0)
+
+                    if(Math.Abs(vectorC) > Math.Abs(vectorF))
                     {
-                        abejaF--; // Arriba.
-                    } 
-                    else if (vectorC < 0)
-                    {
-                        abejaC--; // Izquierda.
+                        if(vectorC > 0)
+                        {
+                            abejaC++;
+                        }
+                        else
+                        {
+                            abejaC--;
+                        }
                     }
-                    else if (vectorF > 0)
+                    else
                     {
-                        abejaF++; // Abajo.
+                        if(vectorF > 0)
+                        {
+                            abejaF++;
+                        }
+                        else
+                        {
+                            abejaF--;
+                        }
                     }
-                    else if (vectorC > 0)
-                    {
-                        abejaC++; // Derecha.
-                    }
-                  
+
+                    // Movimiento aleatorio de la abeja.
+                    //int direccion = rnd.Next(0, 4); // Random entre las 4 direcciones (0, 1, 2, 3). (Cuatro no se cuenta porque es [a, b).
 
                     //// Establezcamos que 0 arriba, 1 izquierda, 2 abajo, 3 derecha.
                     //if (direccion == 0 && abejaF > 0)
@@ -132,27 +129,26 @@ namespace PRACTICA1
                 colision = jugF == abejaF && jugC == abejaC;
 
                 // Renderizado de entidades en consola.
+                // Player
                 Console.Clear(); // Limpia pantalla antes de un nuevo renderizado.
                 Console.SetCursorPosition(jugC, jugF);
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.Write(0);
 
-                // Abeja (en proceso):
+                // Abeja
                 Console.SetCursorPosition(abejaC, abejaF);
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Write("+");
 
+                if (colision)
+                {
+                    Console.Clear();
+                    Console.SetCursorPosition(jugC, jugF);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("*");
+                }
                 // Retardo entre frames.
                 System.Threading.Thread.Sleep(delta);
-            }
-
-            if (colision)
-            {
-                Console.Clear();
-                Console.SetCursorPosition(jugC, jugF);
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("*");
-                Console.ForegroundColor = ConsoleColor.Black;
             }
         }   
     }
