@@ -25,7 +25,8 @@ namespace PRACTICA1
             abejaF, abejaC,                     // Posición de la abeja.
             delta = 300;                        // Retardo entre frames (ms).
             bool colision = false,                      // Colisión entre abeja y jugador.
-                 exit = false;                          // Finalizar el juego de forma forzosa.
+                 exit = false,                          // Finalizar el juego de forma forzosa.
+                 dosFrames;
 
             // Posicion inicial del player.
             jugF = jugC = 0;
@@ -54,6 +55,7 @@ namespace PRACTICA1
                 exit = s == "q";
 
                 // Movimiento del jugador en función del input.
+                //También se podría usar el método ToUpper()
                 if ((s == "w" || s == "W") && jugF > 0)
                 {
                     jugF--; // Arriba.
@@ -74,7 +76,7 @@ namespace PRACTICA1
                 // Detección de la colisión.
                 colision = jugF == abejaF && jugC == abejaC;
 
-                if (!colision)
+                if (!colision && !dosFrames)
                 {
                     // Vector dirección.
                     int vectorF = jugF - abejaF,
