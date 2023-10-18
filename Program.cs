@@ -31,7 +31,7 @@ namespace PRACTICA1
             // Posicion inicial del player.
             jugF = jugC = 0;
 
-            // La abeja aparece en 7,7.
+            // La abeja aparece en la esquina abajo derecha.
             abejaF = ALTO - 1;
             abejaC = ANCHO - 1;
 
@@ -46,30 +46,28 @@ namespace PRACTICA1
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write("+");
 
-            // Mientras el juego no haya terminado... (He cambiado terminado por colision ya que el juego termina AL COLISIONAR).
+            // Mientras no haya colisión y no salgamos.
             while (!colision && !exit)
             {
                 // Recogida del input.
                 string s = "";
-                while (Console.KeyAvailable) s = (Console.ReadKey(true)).KeyChar.ToString();
-
-                exit = s == "q";
+                while (Console.KeyAvailable) s = (Console.ReadKey(true)).KeyChar.ToString().ToUpper();
+                exit = s == "Q";
 
                 // Movimiento del jugador en función del input.
-                //También se podría usar el método ToUpper()
-                if ((s == "w" || s == "W") && jugF > 0)
+                if (s == "W" && jugF > 0)
                 {
                     jugF--; // Arriba.
                 }
-                else if ((s == "a" || s == "A") && jugC > 0)
+                else if (s == "A" && jugC > 0)
                 {
                     jugC--; // Izquierda.
                 }
-                else if ((s == "s" || s == "S") && jugF < ALTO - 1)
+                else if (s == "S" && jugF < ALTO - 1)
                 {
                     jugF++; // Abajo.
                 }
-                else if ((s == "d" || s == "D") && jugC < ANCHO - 1)
+                else if (s == "D" && jugC < ANCHO - 1)
                 {
                     jugC++; // Derecha.
                 }
@@ -79,11 +77,10 @@ namespace PRACTICA1
 
                 if (!colision)
                 {
-                    if (contador <= framesAbeja)
+                    if (contador >= framesAbeja)
                     {
-                        // Vector dirección.
                         int vectorF = jugF - abejaF,
-                            vectorC = jugC - abejaC;
+                        vectorC = jugC - abejaC;
 
                         if (Math.Abs(vectorC) > Math.Abs(vectorF))
                         {
@@ -113,6 +110,32 @@ namespace PRACTICA1
                     {
                         contador++;
                     }
+                    //Vector dirección.
+                    
+
+                    // Detección de la colisión.
+                    colision = jugF == abejaF && jugC == abejaC;
+
+                    // Renderizado de entidades en consola.
+                    // Player
+                    Console.Clear(); // Limpia pantalla antes de un nuevo renderizado.
+                    Console.SetCursorPosition(jugC, jugF);
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.Write(0);
+                    // Abeja
+                    Console.SetCursorPosition(abejaC, abejaF);
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write("+");
+
+                    if (colision)
+                    {
+                        Console.Clear();
+                        Console.SetCursorPosition(jugC, jugF);
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("*");
+                    }
+                    // Retardo entre frames.
+                    System.Threading.Thread.Sleep(delta);
                 }
 
                 // Movimiento aleatorio de la abeja.
@@ -136,32 +159,6 @@ namespace PRACTICA1
                 //    abejaC++; // Derecha.
                 //}
             }
-
-            // Detección de la colisión.
-            colision = jugF == abejaF && jugC == abejaC;
-
-            // Renderizado de entidades en consola.
-            // Player
-            Console.Clear(); // Limpia pantalla antes de un nuevo renderizado.
-            Console.SetCursorPosition(jugC, jugF);
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write(0);
-
-            // Abeja
-            Console.SetCursorPosition(abejaC, abejaF);
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("+");
-
-            if (colision)
-            {
-                Console.Clear();
-                Console.SetCursorPosition(jugC, jugF);
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("*");
-            }
-            // Retardo entre frames.
-            System.Threading.Thread.Sleep(delta);
-
         }
     }
 }
