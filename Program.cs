@@ -11,7 +11,7 @@ namespace PRACTICA1
     class MainClass
     {
         // Generador de aleatorios (para mover abeja).
-        static Random rnd = new Random();
+        //static Random rnd = new Random(); // Solo se usa si el movimiento de la abeja es aleatorio.
 
         // D0imensiones del área de juego.
         const int ANCHO = 12,
@@ -23,8 +23,8 @@ namespace PRACTICA1
             int jugF, jugC,                     // Posición del jugador.
             abejaF, abejaC,                     // Posición de la abeja.
             delta = 300,                        // Retardo entre frames (ms).
-            framesAbeja = 2,
-            contador = 0;
+            framesAbeja = 2,                    // Número de frames para reiniciar el contador.
+            contador = 0;                       // Contador para los frames que llevará la abeja.
             bool colision = false,                      // Colisión entre abeja y jugador.
                  exit = false;                          // Finalizar el juego de forma forzosa.
 
@@ -75,9 +75,9 @@ namespace PRACTICA1
                 // Detección de la colisión.
                 colision = jugF == abejaF && jugC == abejaC;
 
-                if (!colision)
+                if (!colision) // Si no haya colisión.
                 {
-                    if (contador >= framesAbeja)
+                    if (contador >= framesAbeja) // Si el contador es mayor o igual a los frames, se ejecutará el movimiento.
                     {
                         int vectorF = jugF - abejaF,
                         vectorC = jugC - abejaC;
@@ -104,60 +104,61 @@ namespace PRACTICA1
                                 abejaF--;
                             }
                         }
-                        contador = 0; //reiniciamos contador
+
+                        // Movimiento aleatorio de la abeja.
+                        //int direccion = rnd.Next(0, 4); // Random entre las 4 direcciones (0, 1, 2, 3). (Cuatro no se cuenta porque es [a, b).
+
+                        //// Establezcamos que 0 arriba, 1 izquierda, 2 abajo, 3 derecha.
+                        //if (direccion == 0 && abejaF > 0)
+                        //{
+                        //    abejaF--; // Arriba.
+                        //}
+                        //else if (direccion == 1 && abejaC > 0)
+                        //{
+                        //    abejaC--; // Izquierda.
+                        //}
+                        //else if (direccion == 2 && abejaF < ALTO -1)
+                        //{
+                        //    abejaF++; // Abajo.
+                        //}
+                        //else if (direccion == 3 && abejaC < ANCHO -1)
+                        //{
+                        //    abejaC++; // Derecha.
+                        //}
+
+                        contador = 0; // Reiniciamos contador.
                     }
                     else
                     {
-                        contador++;
+                        contador++; // Sumamos al contador.
                     }
-                    //Vector dirección.
                     
-
                     // Detección de la colisión.
                     colision = jugF == abejaF && jugC == abejaC;
 
                     // Renderizado de entidades en consola.
-                    // Player
+                    // Player:
                     Console.Clear(); // Limpia pantalla antes de un nuevo renderizado.
                     Console.SetCursorPosition(jugC, jugF);
                     Console.ForegroundColor = ConsoleColor.DarkCyan;
                     Console.Write(0);
-                    // Abeja
+                    // Abeja:
                     Console.SetCursorPosition(abejaC, abejaF);
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.Write("+");
 
-                    if (colision)
+                    if (colision) // Si hay colisión.
                     {
+                        // Dibujamos * en el lugar del player.
                         Console.Clear();
                         Console.SetCursorPosition(jugC, jugF);
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write("*");
                     }
+
                     // Retardo entre frames.
                     System.Threading.Thread.Sleep(delta);
                 }
-
-                // Movimiento aleatorio de la abeja.
-                //int direccion = rnd.Next(0, 4); // Random entre las 4 direcciones (0, 1, 2, 3). (Cuatro no se cuenta porque es [a, b).
-
-                //// Establezcamos que 0 arriba, 1 izquierda, 2 abajo, 3 derecha.
-                //if (direccion == 0 && abejaF > 0)
-                //{
-                //    abejaF--; // Arriba.
-                //}
-                //else if (direccion == 1 && abejaC > 0)
-                //{
-                //    abejaC--; // Izquierda.
-                //}
-                //else if (direccion == 2 && abejaF < ALTO -1)
-                //{
-                //    abejaF++; // Abajo.
-                //}
-                //else if (direccion == 3 && abejaC < ANCHO -1)
-                //{
-                //    abejaC++; // Derecha.
-                //}
             }
         }
     }
