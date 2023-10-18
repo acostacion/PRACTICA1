@@ -75,10 +75,11 @@ namespace PRACTICA1
                 // Detección de la colisión.
                 colision = jugF == abejaF && jugC == abejaC;
 
-                if (!colision) // Si no haya colisión.
+                if (!colision) // Si no hay colisión.
                 {
                     if (contador >= framesAbeja) // Si el contador es mayor o igual a los frames, se ejecutará el movimiento.
                     {
+                        // Vector dirección.
                         int vectorF = jugF - abejaF,
                         vectorC = jugC - abejaC;
 
@@ -155,10 +156,10 @@ namespace PRACTICA1
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write("*");
                     }
-
-                    // Retardo entre frames.
-                    System.Threading.Thread.Sleep(delta);
                 }
+
+                // Retardo entre frames.
+                System.Threading.Thread.Sleep(delta);
             }
         }
     }
