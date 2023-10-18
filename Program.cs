@@ -6,55 +6,65 @@ using System.Runtime.CompilerServices;
 
 namespace PRACTICA1
 {
-    // HAY QUE HACER COMENTARIOS BIEN EXPLICAETES Y TO GUAPOS <3.
-
     class MainClass
     {
         // Generador de aleatorios (para mover abeja).
         //static Random rnd = new Random(); // Solo se usa si el movimiento de la abeja es aleatorio.
 
-        // D0imensiones del área de juego.
+        // Dimensiones del área de juego.
         const int ANCHO = 12,
-                  ALTO = 9;
+                  ALTO = 9,
+
+        // Número de frames para reiniciar el contador.
+                  FRAMESABEJA = 2;
+
         public static void Main()
         {
-            Console.CursorVisible = false;
+            Console.CursorVisible = false;      // Para que no se muestre el cursor.
             Console.SetWindowSize(ANCHO, ALTO); // Tamaño de la consola.
+
             int jugF, jugC,                     // Posición del jugador.
             abejaF, abejaC,                     // Posición de la abeja.
             delta = 300,                        // Retardo entre frames (ms).
-            framesAbeja = 2,                    // Número de frames para reiniciar el contador.
             contador = 0;                       // Contador para los frames que llevará la abeja.
-            bool colision = false,                      // Colisión entre abeja y jugador.
-                 exit = false;                          // Finalizar el juego de forma forzosa.
 
-            // Posicion inicial del player.
+            bool colision = false,              // Colisión entre abeja y jugador.
+                 exit = false;                  // Finalizar el juego de forma forzosa.
+
+            // Posicion inicial del player (esquina arriba izquierda).
             jugF = jugC = 0;
 
-            // La abeja aparece en la esquina abajo derecha.
+            // Posicion inicial de la abeja (esquina abajo derecha).
             abejaF = ALTO - 1;
             abejaC = ANCHO - 1;
 
-            // Renderizado inicial.
-            Console.Clear(); // Limpia pantalla antes de un nuevo renderizado.
-            Console.SetCursorPosition(jugC, jugF);
-            Console.ForegroundColor = ConsoleColor.DarkCyan;
-            Console.Write(0);
+            // 1. RENDERIZADO INICIAL [MEJORA].
 
-            // Abeja (en proceso):
-            Console.SetCursorPosition(abejaC, abejaF);
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("+");
+            // Jugador:
+            Console.Clear();                                     // Limpiar la consola para un nuevo renderizado.                                
+            Console.SetCursorPosition(jugC, jugF);               // Establecer la posición del cursor para el jugador.
+            Console.ForegroundColor = ConsoleColor.DarkCyan;     // Configurar el color del texto para el jugador.
+            Console.Write(0);                                    // Mostrar el jugador en la posición del cursor especificada.
 
-            // Mientras no haya colisión y no salgamos.
+            // Abeja:
+            Console.SetCursorPosition(abejaC, abejaF);           // Establecer la posición del cursor para la abeja.
+            Console.ForegroundColor = ConsoleColor.Yellow;       // Configurar el color del texto para la abeja.   
+            Console.Write("+");                                  // Mostrar la abeja en la posición del cursor especificada.
+
+            // 2. BUCLE PRINCIPAL.
+
+            // Mientras no haya colisión entre la abeja y el jugador y no salgamos (no hagamos un escape).
             while (!colision && !exit)
             {
-                // Recogida del input.
+                // 3. RECOGIDA DEL INPUT.
                 string s = "";
-                while (Console.KeyAvailable) s = (Console.ReadKey(true)).KeyChar.ToString().ToUpper();
-                exit = s == "Q";
 
-                // Movimiento del jugador en función del input.
+                // Leer la tecla presionada sin mostrarla en la consola y convertirla a mayúsculas.
+                while (Console.KeyAvailable) s = (Console.ReadKey(true)).KeyChar.ToString().ToUpper();
+
+                exit = s == "Q"; // Al presionar la "q" se hace un escape del juego.
+
+                // 4. MOVIMIENTO DEL JUGADOR EN FUNCIÓN DEL INPUT.
                 if (s == "W" && jugF > 0)
                 {
                     jugF--; // Arriba.
@@ -72,41 +82,48 @@ namespace PRACTICA1
                     jugC++; // Derecha.
                 }
 
-                // Detección de la colisión.
+                // 5. DETECCIÓN DE COLISIÓN [MEJORA].
                 colision = jugF == abejaF && jugC == abejaC;
 
                 if (!colision) // Si no hay colisión.
                 {
-                    if (contador >= framesAbeja) // Si el contador es mayor o igual a los frames, se ejecutará el movimiento.
+                    if (contador >= FRAMESABEJA) // Si el contador es mayor o igual a los frames, se ejecutará el movimiento.
                     {
                         // Vector dirección.
                         int vectorF = jugF - abejaF,
-                        vectorC = jugC - abejaC;
+                            vectorC = jugC - abejaC;
 
+                        // Si la magnitud de vectorC (horizontal) es mayor que la de vectorF...
                         if (Math.Abs(vectorC) > Math.Abs(vectorF))
                         {
+                            // Si es positivo...
                             if (vectorC > 0)
                             {
-                                abejaC++;
+                                abejaC++; // Derecha.
                             }
+                            // Si es negativo...
                             else
                             {
-                                abejaC--;
+                                abejaC--; // Izquierda.
                             }
                         }
+                        // Si la magnitud de vectorF (vertical) es mayor que la de vectorC...
                         else
                         {
+                            // Si es positivo...
                             if (vectorF > 0)
                             {
-                                abejaF++;
+                                abejaF++; // Abajo.
                             }
+                            // Si es negativo...
                             else
                             {
-                                abejaF--;
+                                abejaF--; // Arriba.
                             }
                         }
 
-                        // Movimiento aleatorio de la abeja.
+                        // 6. MOVIMIENTO ALEATORIO DE LA ABEJA [SIN USAR].
+
                         //int direccion = rnd.Next(0, 4); // Random entre las 4 direcciones (0, 1, 2, 3). (Cuatro no se cuenta porque es [a, b).
 
                         //// Establezcamos que 0 arriba, 1 izquierda, 2 abajo, 3 derecha.
@@ -134,31 +151,34 @@ namespace PRACTICA1
                         contador++; // Sumamos al contador.
                     }
                     
-                    // Detección de la colisión.
+                    // 7. DETECCIÓN DE LA COLISIÓN.
                     colision = jugF == abejaF && jugC == abejaC;
 
-                    // Renderizado de entidades en consola.
-                    // Player:
-                    Console.Clear(); // Limpia pantalla antes de un nuevo renderizado.
-                    Console.SetCursorPosition(jugC, jugF);
-                    Console.ForegroundColor = ConsoleColor.DarkCyan;
-                    Console.Write(0);
-                    // Abeja:
-                    Console.SetCursorPosition(abejaC, abejaF);
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.Write("+");
+                    // 8. RENDERIZADO DE ENTIDADES EN CONSOLA.
 
-                    if (colision) // Si hay colisión.
+                    // Jugador.
+                    Console.Clear();                                     // Limpiar la consola para un nuevo renderizado.                                
+                    Console.SetCursorPosition(jugC, jugF);               // Establecer la posición del cursor para el jugador.
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;     // Configurar el color del texto para el jugador.
+                    Console.Write(0);                                    // Mostrar el jugador en la posición del cursor especificada.
+
+                    // Abeja.
+                    Console.SetCursorPosition(abejaC, abejaF);           // Establecer la posición del cursor para la abeja.
+                    Console.ForegroundColor = ConsoleColor.Yellow;       // Configurar el color del texto para la abeja.   
+                    Console.Write("+");                                  // Mostrar la abeja en la posición del cursor especificada.
+
+                    // Si hay colisión entre el jugador y la abeja...
+                    if (colision) 
                     {
-                        // Dibujamos * en el lugar del player.
-                        Console.Clear();
-                        Console.SetCursorPosition(jugC, jugF);
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.Write("*");
-                    }
+                        
+                        Console.Clear();                                 // Limpiamos la consola.
+                        Console.SetCursorPosition(jugC, jugF);           // Ponemos el cursor en la posición actual del jugador.   
+                        Console.ForegroundColor = ConsoleColor.Red;      // Configurar el color del texto para el "*".
+                        Console.Write("*");                              // Dibujamos un '*' en la posición del jugador.
+                    }   
                 }
 
-                // Retardo entre frames.
+                // 9. RETARDO ENTRE FRAMES.
                 System.Threading.Thread.Sleep(delta);
             }
         }
