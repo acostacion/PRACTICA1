@@ -238,16 +238,16 @@ namespace PRACTICA1
                         Console.Clear();                                 // Limpiamos la consola.
                         Console.SetCursorPosition(abejaC, abejaF);       // Ponemos el cursor en la posición actual de la abeja.   
                         Console.ForegroundColor = ConsoleColor.Red;      // Configurar el color del texto para el "#".
-                        Console.Write("#");                              // Dibujamos un '#' en la posición del jugador.
+                        Console.Write("#");                              // Dibujamos un '#' en la posición de la abeja.
                         abejaF = -1; 
                     }
 
-                    // Si no hay ninguna bala en pantalla...
+                    // Si hay bala en pantalla...
                     if (balaF != -1)
                     {
-                        Console.SetCursorPosition(balaC, balaF);         // Ponemos el cursor en la posición actual de la abeja. 
+                        Console.SetCursorPosition(balaC, balaF);         // Ponemos el cursor en la posición actual de la bala. 
                         Console.ForegroundColor = ConsoleColor.Magenta;  // Configurar el color del texto para el "o".
-                        Console.Write("o");                              // Dibujamos un '#' en la posición del jugador.
+                        Console.Write("o");                              // Dibujamos un 'o' en la posición de la bala.
                     }
                 }
                 #endregion
