@@ -42,3 +42,11 @@ C:\Users\usuario_local\Documents\GitHub\PRACTICA1\obj\Debug\net6.0\refint\PRACTI
 C:\Users\usuario_local\Documents\GitHub\PRACTICA1\obj\Debug\net6.0\PRACTICA1.pdb
 C:\Users\usuario_local\Documents\GitHub\PRACTICA1\obj\Debug\net6.0\PRACTICA1.genruntimeconfig.cache
 C:\Users\usuario_local\Documents\GitHub\PRACTICA1\obj\Debug\net6.0\ref\PRACTICA1.dll
+U:\hlocal\practicafp1\obj\Debug\net6.0\PRACTICA1.csproj.AssemblyReference.cache
+U:\hlocal\practicafp1\obj\Debug\net6.0\PRACTICA1.GeneratedMSBuildEditorConfig.editorconfig
+U:\hlocal\practicafp1\obj\Debug\net6.0\PRACTICA1.AssemblyInfoInputs.cache
+U:\hlocal\practicafp1\obj\Debug\net6.0\PRACTICA1.AssemblyInfo.cs
+U:\hlocal\practicafp1\obj\Debug\net6.0\PRACTICA1.csproj.CoreCompileInputs.cache
+U:\hlocal\practicafp1\obj\Debug\net6.0\PRACTICA1.dll
+U:\hlocal\practicafp1\obj\Debug\net6.0\refint\PRACTICA1.dll
+U:\hlocal\practicafp1\obj\Debug\net6.0\PRACTICA1.pdb

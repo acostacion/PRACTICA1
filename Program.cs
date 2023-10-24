@@ -25,10 +25,12 @@ namespace PRACTICA1
 
             int jugF, jugC,                     // Posición del jugador.
             abejaF, abejaC,                     // Posición de la abeja.
+            balaF = -1, balaC,                  // Posición de la bala. Es -1 al comienzo porque no está.
             delta = 300,                        // Retardo entre frames (ms).
             contador = 0;                       // Contador para los frames que llevará la abeja.
 
             bool colision = false,              // Colisión entre abeja y jugador.
+                 colBalaAbeja = false,          // Colisión entre bala y abeja.
                  exit = false;                  // Finalizar el juego de forma forzosa.
 
             // Posicion inicial del player (esquina arriba izquierda).
@@ -54,7 +56,7 @@ namespace PRACTICA1
             // 2. BUCLE PRINCIPAL.
 
             // Mientras no haya colisión entre la abeja y el jugador y no salgamos (no hagamos un escape).
-            while (!colision && !exit)
+            while (!colision && !exit && !colBalaAbeja)
             {
                 // 3. RECOGIDA DEL INPUT.
                 string s = "";
@@ -62,28 +64,88 @@ namespace PRACTICA1
                 // Leer la tecla presionada sin mostrarla en la consola y convertirla a mayúsculas.
                 while (Console.KeyAvailable) s = (Console.ReadKey(true)).KeyChar.ToString().ToUpper();
 
+                // Vector dirección del jugador.
+                int dirJugF = 0,
+                    dirJugC = 0;
+
                 exit = s == "Q"; // Al presionar la "q" se hace un escape del juego.
 
                 // 4. MOVIMIENTO DEL JUGADOR EN FUNCIÓN DEL INPUT.
                 if (s == "W" && jugF > 0)
                 {
                     jugF--; // Arriba.
+                    dirJugF = -1;
                 }
                 else if (s == "A" && jugC > 0)
                 {
                     jugC--; // Izquierda.
+                    dirJugC = -1;
                 }
                 else if (s == "S" && jugF < ALTO - 1)
                 {
                     jugF++; // Abajo.
+                    dirJugF = 1;
                 }
                 else if (s == "D" && jugC < ANCHO - 1)
                 {
                     jugC++; // Derecha.
+                    dirJugC = 1;
+                }
+                else if (s == "L")
+                {
+                    // Vector dirección de la bala.
+                    int dirBalaF = dirJugF,
+                        dirBalaC = dirJugC;
+
+                    // Renderizado bala.                            
+                    Console.SetCursorPosition(jugC, jugF);               // Establecer la posición del cursor para el jugador.
+
+                    // Si la magnitud de dirBalaC (horizontal) es mayor que la de dirBalaF...
+                    if (Math.Abs(dirBalaC) > Math.Abs(dirBalaF))
+                    {
+                        // Si es positivo...
+                        if (dirBalaC > 0)
+                        {
+                            Console.SetCursorPosition(jugC + 1, jugF);
+                            Console.ForegroundColor = ConsoleColor.Magenta;     
+                            Console.Write("o");
+                            balaC++; // Derecha.
+                        }
+                        // Si es negativo...
+                        else
+                        {
+                            Console.SetCursorPosition(jugC -1, jugF);
+                            Console.ForegroundColor = ConsoleColor.Magenta;    
+                            Console.Write("o");
+                            balaC--; // Izquierda.
+                        }
+                    }
+                    // Si la magnitud de vectorF (vertical) es mayor que la de vectorC...
+                    else
+                    {
+                        // Si es positivo...
+                        if (dirBalaF > 0)
+                        {
+                            Console.SetCursorPosition(jugC, jugF + 1);
+                            Console.ForegroundColor = ConsoleColor.Magenta;
+                            Console.Write("o");
+                            balaF++; // Abajo.
+                        }
+                        // Si es negativo...
+                        else
+                        {
+                            Console.SetCursorPosition(jugC, jugF -1);
+                            Console.ForegroundColor = ConsoleColor.Magenta;
+                            Console.Write("o");
+                            balaF--; // Arriba.
+                        }
+                    }
                 }
 
                 // 5. DETECCIÓN DE COLISIÓN [MEJORA].
                 colision = jugF == abejaF && jugC == abejaC;
+
+                colBalaAbeja = balaF == abejaF && balaC == abejaC;
 
                 if (!colision) // Si no hay colisión.
                 {
@@ -154,6 +216,8 @@ namespace PRACTICA1
                     // 7. DETECCIÓN DE LA COLISIÓN.
                     colision = jugF == abejaF && jugC == abejaC;
 
+                    colBalaAbeja = balaF == abejaF && balaC == abejaC;
+
                     // 8. RENDERIZADO DE ENTIDADES EN CONSOLA.
 
                     // Jugador.
@@ -170,12 +234,20 @@ namespace PRACTICA1
                     // Si hay colisión entre el jugador y la abeja...
                     if (colision) 
                     {
-                        
                         Console.Clear();                                 // Limpiamos la consola.
                         Console.SetCursorPosition(jugC, jugF);           // Ponemos el cursor en la posición actual del jugador.   
                         Console.ForegroundColor = ConsoleColor.Red;      // Configurar el color del texto para el "*".
                         Console.Write("*");                              // Dibujamos un '*' en la posición del jugador.
                     }   
+
+                    // Si hay colisión entre la bala y la abeja.
+                    if (colBalaAbeja)
+                    {
+                        Console.Clear();                                 // Limpiamos la consola.
+                        Console.SetCursorPosition(abejaC, abejaF);       // Ponemos el cursor en la posición actual de la abeja.   
+                        Console.ForegroundColor = ConsoleColor.Red;      // Configurar el color del texto para el "#".
+                        Console.Write("#");                              // Dibujamos un '#' en la posición del jugador.
+                    }
                 }
 
                 // 9. RETARDO ENTRE FRAMES.
