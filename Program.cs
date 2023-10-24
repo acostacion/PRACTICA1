@@ -42,7 +42,7 @@ namespace PRACTICA1
 
             // Vectores dirección del jugador y de la bala.
             int dirJugF = 0,
-                dirJugC = 0,
+                dirJugC = 1, // Para que se mueva a la derecha por defecto y no se pinte sobre el jugador.
                 dirBalaF = 0,
                 dirBalaC = 0;
 
@@ -108,8 +108,8 @@ namespace PRACTICA1
                     dirBalaC = dirJugC;
 
                     // La bala aparece en la dirección del jugador (NO donde el jugador).
-                    balaF = jugF + dirJugF;
-                    balaC = jugC + dirJugC;
+                    balaF = jugF;
+                    balaC = jugC;
                 }
                 #endregion
 
