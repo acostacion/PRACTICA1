@@ -40,6 +40,12 @@ namespace PRACTICA1
             abejaF = ALTO - 1;
             abejaC = ANCHO - 1;
 
+            // Vectores dirección del jugador y de la bala.
+            int dirJugF = 0,
+                dirJugC = 0,
+                dirBalaF = 0,
+                dirBalaC = 0;
+
             #region RENDERIZADO INICIAL [MEJORA].
 
             // Jugador:
@@ -66,12 +72,6 @@ namespace PRACTICA1
                 // Leer la tecla presionada sin mostrarla en la consola y convertirla a mayúsculas.
                 while (Console.KeyAvailable) s = (Console.ReadKey(true)).KeyChar.ToString().ToUpper();
 
-                // Vectores dirección del jugador y de la bala.
-                int dirJugF = 0,
-                    dirJugC = 0,
-                    dirBalaF = 0,
-                    dirBalaC = 0;
-
                 exit = s == "Q"; // Al presionar la "q" se hace un escape del juego.
                 #endregion
 
@@ -80,21 +80,25 @@ namespace PRACTICA1
                 if (s == "W" && jugF > 0)
                 {
                     jugF--; // Arriba.
+                    dirJugC = 0;
                     dirJugF = -1;
                 }
                 else if (s == "A" && jugC > 0)
                 {
                     jugC--; // Izquierda.
+                    dirJugF = 0;
                     dirJugC = -1;
                 }
                 else if (s == "S" && jugF < ALTO - 1)
                 {
                     jugF++; // Abajo.
+                    dirJugC = 0;
                     dirJugF = 1;
                 }
                 else if (s == "D" && jugC < ANCHO - 1)
                 {
                     jugC++; // Derecha.
+                    dirJugF = 0;
                     dirJugC = 1;
                 }
                 else if (s == "L" && balaF == -1)
@@ -103,9 +107,9 @@ namespace PRACTICA1
                     dirBalaF = dirJugF;
                     dirBalaC = dirJugC;
 
-                    // La bala aparece en la dirección del jugador.
-                    balaF = jugF + dirBalaF;
-                    balaC = jugC + dirBalaC;
+                    // La bala aparece en la dirección del jugador (NO donde el jugador).
+                    balaF = jugF + dirJugF;
+                    balaC = jugC + dirJugC;
                 }
                 #endregion
 
