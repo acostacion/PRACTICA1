@@ -25,7 +25,7 @@ namespace PRACTICA1
 
             int jugF, jugC,                     // Posición del jugador.
             abejaF, abejaC,                     // Posición de la abeja.
-            balaF = -1, balaC,                  // Posición de la bala. Es -1 al comienzo porque no está.
+            balaF = -1, balaC = 0,                  // Posición de la bala. Es -1 al comienzo porque no está.
             delta = 300,                        // Retardo entre frames (ms).
             contador = 0;                       // Contador para los frames que llevará la abeja.
 
@@ -66,9 +66,11 @@ namespace PRACTICA1
                 // Leer la tecla presionada sin mostrarla en la consola y convertirla a mayúsculas.
                 while (Console.KeyAvailable) s = (Console.ReadKey(true)).KeyChar.ToString().ToUpper();
 
-                // Vector dirección del jugador.
+                // Vectores dirección del jugador y de la bala.
                 int dirJugF = 0,
-                    dirJugC = 0;
+                    dirJugC = 0,
+                    dirBalaF = 0,
+                    dirBalaC = 0;
 
                 exit = s == "Q"; // Al presionar la "q" se hace un escape del juego.
                 #endregion
@@ -98,12 +100,12 @@ namespace PRACTICA1
                 else if (s == "L" && balaF == -1)
                 {
                     // Vector dirección de la bala.
-                    int dirBalaF = dirJugF,
-                        dirBalaC = dirJugC;
+                    dirBalaF = dirJugF;
+                    dirBalaC = dirJugC;
 
-                    // Le ponemos a la bala la posición actual del jugador.
-                    balaF = jugF;
-                    balaC = jugC;
+                    // La bala aparece en la dirección del jugador.
+                    balaF = jugF + dirBalaF;
+                    balaC = jugC + dirBalaC;
                 }
                 #endregion
 
