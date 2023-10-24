@@ -95,54 +95,30 @@ namespace PRACTICA1
                     jugC++; // Derecha.
                     dirJugC = 1;
                 }
-                else if (s == "L")
+                else if (s == "L" && balaF == -1)
                 {
                     // Vector dirección de la bala.
                     int dirBalaF = dirJugF,
                         dirBalaC = dirJugC;
 
-                    // Renderizado bala.                            
-                    Console.SetCursorPosition(jugC, jugF);               // Establecer la posición del cursor para el jugador.
+                    // Le ponemos a la bala la posición actual del jugador.
+                    balaF = jugF;
+                    balaC = jugC;
+                }
+                #endregion
 
-                    // Si la magnitud de dirBalaC (horizontal) es mayor que la de dirBalaF...
-                    if (Math.Abs(dirBalaC) > Math.Abs(dirBalaF))
+                #region MOVIMIENTO DE LA BALA.
+
+                if (balaF != -1)
+                {
+                    // Mover la bala en la dirección de la bala.
+                    balaF += dirBalaF;
+                    balaC += dirBalaC;
+
+                    // Verificar si la bala ha salido de los límites del juego.
+                    if (balaF < 0 || balaF >= ALTO || balaC < 0 || balaC >= ANCHO)
                     {
-                        // Si es positivo...
-                        if (dirBalaC > 0)
-                        {
-                            Console.SetCursorPosition(jugC + 1, jugF);
-                            Console.ForegroundColor = ConsoleColor.Magenta;     
-                            Console.Write("o");
-                            balaC++; // Derecha.
-                        }
-                        // Si es negativo...
-                        else
-                        {
-                            Console.SetCursorPosition(jugC -1, jugF);
-                            Console.ForegroundColor = ConsoleColor.Magenta;    
-                            Console.Write("o");
-                            balaC--; // Izquierda.
-                        }
-                    }
-                    // Si la magnitud de vectorF (vertical) es mayor que la de vectorC...
-                    else
-                    {
-                        // Si es positivo...
-                        if (dirBalaF > 0)
-                        {
-                            Console.SetCursorPosition(jugC, jugF + 1);
-                            Console.ForegroundColor = ConsoleColor.Magenta;
-                            Console.Write("o");
-                            balaF++; // Abajo.
-                        }
-                        // Si es negativo...
-                        else
-                        {
-                            Console.SetCursorPosition(jugC, jugF -1);
-                            Console.ForegroundColor = ConsoleColor.Magenta;
-                            Console.Write("o");
-                            balaF--; // Arriba.
-                        }
+                        balaF = -1; // La bala desaparece.
                     }
                 }
                 #endregion
@@ -250,7 +226,7 @@ namespace PRACTICA1
                         Console.Write("*");                              // Dibujamos un '*' en la posición del jugador.
                     }   
 
-                    // Si hay colisión entre la bala y la abeja.
+                    // Si hay colisión entre la bala y la abeja...
                     if (colBalaAbeja)
                     {
                         abejaF = -1;
@@ -258,6 +234,14 @@ namespace PRACTICA1
                         Console.SetCursorPosition(abejaC, abejaF);       // Ponemos el cursor en la posición actual de la abeja.   
                         Console.ForegroundColor = ConsoleColor.Red;      // Configurar el color del texto para el "#".
                         Console.Write("#");                              // Dibujamos un '#' en la posición del jugador.
+                    }
+
+                    // Si no hay ninguna bala en pantalla...
+                    if (balaF != -1)
+                    {
+                        Console.SetCursorPosition(balaC, balaF);         // Ponemos el cursor en la posición actual de la abeja. 
+                        Console.ForegroundColor = ConsoleColor.Magenta;  // Configurar el color del texto para el "o".
+                        Console.Write("o");                              // Dibujamos un '#' en la posición del jugador.
                     }
                 }
                 #endregion
