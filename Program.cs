@@ -235,11 +235,11 @@ namespace PRACTICA1
                     // Si hay colisión entre la bala y la abeja...
                     if (colBalaAbeja)
                     {
-                        abejaF = -1;
                         Console.Clear();                                 // Limpiamos la consola.
                         Console.SetCursorPosition(abejaC, abejaF);       // Ponemos el cursor en la posición actual de la abeja.   
                         Console.ForegroundColor = ConsoleColor.Red;      // Configurar el color del texto para el "#".
                         Console.Write("#");                              // Dibujamos un '#' en la posición del jugador.
+                        abejaF = -1; 
                     }
 
                     // Si no hay ninguna bala en pantalla...
