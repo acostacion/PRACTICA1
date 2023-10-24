@@ -40,7 +40,7 @@ namespace PRACTICA1
             abejaF = ALTO - 1;
             abejaC = ANCHO - 1;
 
-            // 1. RENDERIZADO INICIAL [MEJORA].
+            #region RENDERIZADO INICIAL [MEJORA].
 
             // Jugador:
             Console.Clear();                                     // Limpiar la consola para un nuevo renderizado.                                
@@ -52,13 +52,15 @@ namespace PRACTICA1
             Console.SetCursorPosition(abejaC, abejaF);           // Establecer la posición del cursor para la abeja.
             Console.ForegroundColor = ConsoleColor.Yellow;       // Configurar el color del texto para la abeja.   
             Console.Write("+");                                  // Mostrar la abeja en la posición del cursor especificada.
+            #endregion
 
-            // 2. BUCLE PRINCIPAL.
+            #region BUCLE PRINCIPAL
 
             // Mientras no haya colisión entre la abeja y el jugador y no salgamos (no hagamos un escape).
             while (!colision && !exit && !colBalaAbeja)
             {
-                // 3. RECOGIDA DEL INPUT.
+                # region RECOGIDA DEL INPUT.
+
                 string s = "";
 
                 // Leer la tecla presionada sin mostrarla en la consola y convertirla a mayúsculas.
@@ -69,8 +71,10 @@ namespace PRACTICA1
                     dirJugC = 0;
 
                 exit = s == "Q"; // Al presionar la "q" se hace un escape del juego.
+                #endregion
 
-                // 4. MOVIMIENTO DEL JUGADOR EN FUNCIÓN DEL INPUT.
+                # region MOVIMIENTO DEL JUGADOR EN FUNCIÓN DEL INPUT.
+
                 if (s == "W" && jugF > 0)
                 {
                     jugF--; // Arriba.
@@ -141,8 +145,10 @@ namespace PRACTICA1
                         }
                     }
                 }
+                #endregion
 
-                // 5. DETECCIÓN DE COLISIÓN [MEJORA].
+                #region DETECCIÓN DE COLISIÓN [MEJORA].
+
                 colision = jugF == abejaF && jugC == abejaC;
 
                 colBalaAbeja = balaF == abejaF && balaC == abejaC;
@@ -183,8 +189,9 @@ namespace PRACTICA1
                                 abejaF--; // Arriba.
                             }
                         }
+                        #endregion
 
-                        // 6. MOVIMIENTO ALEATORIO DE LA ABEJA [SIN USAR].
+                        #region MOVIMIENTO ALEATORIO DE LA ABEJA [SIN USAR].
 
                         //int direccion = rnd.Next(0, 4); // Random entre las 4 direcciones (0, 1, 2, 3). (Cuatro no se cuenta porque es [a, b).
 
@@ -212,13 +219,16 @@ namespace PRACTICA1
                     {
                         contador++; // Sumamos al contador.
                     }
-                    
-                    // 7. DETECCIÓN DE LA COLISIÓN.
+                    #endregion
+
+                    #region DETECCIÓN DE LA COLISIÓN.
+
                     colision = jugF == abejaF && jugC == abejaC;
 
                     colBalaAbeja = balaF == abejaF && balaC == abejaC;
+                    #endregion
 
-                    // 8. RENDERIZADO DE ENTIDADES EN CONSOLA.
+                    #region RENDERIZADO DE ENTIDADES EN CONSOLA.
 
                     // Jugador.
                     Console.Clear();                                     // Limpiar la consola para un nuevo renderizado.                                
@@ -243,16 +253,21 @@ namespace PRACTICA1
                     // Si hay colisión entre la bala y la abeja.
                     if (colBalaAbeja)
                     {
+                        abejaF = -1;
                         Console.Clear();                                 // Limpiamos la consola.
                         Console.SetCursorPosition(abejaC, abejaF);       // Ponemos el cursor en la posición actual de la abeja.   
                         Console.ForegroundColor = ConsoleColor.Red;      // Configurar el color del texto para el "#".
                         Console.Write("#");                              // Dibujamos un '#' en la posición del jugador.
                     }
                 }
+                #endregion
 
-                // 9. RETARDO ENTRE FRAMES.
+                #region RETARDO ENTRE FRAMES.
+
                 System.Threading.Thread.Sleep(delta);
+                #endregion
             }
+            #endregion
         }
     }
 }
