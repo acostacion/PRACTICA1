@@ -25,7 +25,7 @@ namespace PRACTICA1
 
             int jugF, jugC,                     // Posición del jugador.
             abejaF, abejaC,                     // Posición de la abeja.
-            balaF = -1, balaC = 0,                  // Posición de la bala. Es -1 al comienzo porque no está.
+            balaF = -1, balaC = 0,              // Posición de la bala. Es -1 al comienzo porque no está.
             delta = 300,                        // Retardo entre frames (ms).
             contador = 0;                       // Contador para los frames que llevará la abeja.
 
@@ -118,8 +118,8 @@ namespace PRACTICA1
                 if (balaF != -1)
                 {
                     // Mover la bala en la dirección de la bala.
-                    balaF += dirBalaF;
-                    balaC += dirBalaC;
+                    balaF = balaF + dirBalaF;
+                    balaC = balaC + dirBalaC;
 
                     // Verificar si la bala ha salido de los límites del juego.
                     if (balaF < 0 || balaF >= ALTO || balaC < 0 || balaC >= ANCHO)
