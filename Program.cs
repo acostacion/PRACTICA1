@@ -23,33 +23,19 @@ namespace PRACTICA1
             Console.CursorVisible = false;      // Para que no se muestre el cursor.
             Console.SetWindowSize(ANCHO, ALTO); // Tamaño de la consola.
 
-            int jugF, jugC,                     // Posición del jugador.
-            abejaF, abejaC,                     // Posición de la abeja.
+            int jugF = 0, jugC = 0,                     // Posición del jugador.
+            abejaF = 0, abejaC = 0,                     // Posición de la abeja.
             delta = 300,                        // Retardo entre frames (ms).
             contador = 0;                       // Contador para los frames que llevará la abeja.
 
             bool colision = false,              // Colisión entre abeja y jugador.
                  exit = false;                  // Finalizar el juego de forma forzosa.
 
-            // Posicion inicial del player (esquina arriba izquierda).
-            jugF = jugC = 0;
+            InicializaPosiciones(jugF, jugC, abejaF, abejaC);
 
-            // Posicion inicial de la abeja (esquina abajo derecha).
-            abejaF = ALTO - 1;
-            abejaC = ANCHO - 1;
+            Render(abejaC, abejaF, jugC, jugF, colision);
 
-            // 1. RENDERIZADO INICIAL [MEJORA].
-
-            // Jugador:
-            Console.Clear();                                     // Limpiar la consola para un nuevo renderizado.                                
-            Console.SetCursorPosition(jugC, jugF);               // Establecer la posición del cursor para el jugador.
-            Console.ForegroundColor = ConsoleColor.DarkCyan;     // Configurar el color del texto para el jugador.
-            Console.Write(0);                                    // Mostrar el jugador en la posición del cursor especificada.
-
-            // Abeja:
-            Console.SetCursorPosition(abejaC, abejaF);           // Establecer la posición del cursor para la abeja.
-            Console.ForegroundColor = ConsoleColor.Yellow;       // Configurar el color del texto para la abeja.   
-            Console.Write("+");                                  // Mostrar la abeja en la posición del cursor especificada.
+            
 
             // 2. BUCLE PRINCIPAL.
 
@@ -156,16 +142,7 @@ namespace PRACTICA1
 
                     // 8. RENDERIZADO DE ENTIDADES EN CONSOLA.
 
-                    // Jugador.
-                    Console.Clear();                                     // Limpiar la consola para un nuevo renderizado.                                
-                    Console.SetCursorPosition(jugC, jugF);               // Establecer la posición del cursor para el jugador.
-                    Console.ForegroundColor = ConsoleColor.DarkCyan;     // Configurar el color del texto para el jugador.
-                    Console.Write(0);                                    // Mostrar el jugador en la posición del cursor especificada.
-
-                    // Abeja.
-                    Console.SetCursorPosition(abejaC, abejaF);           // Establecer la posición del cursor para la abeja.
-                    Console.ForegroundColor = ConsoleColor.Yellow;       // Configurar el color del texto para la abeja.   
-                    Console.Write("+");                                  // Mostrar la abeja en la posición del cursor especificada.
+                    Render(abejaC, abejaF, jugC, jugF, colision);
 
                     // Si hay colisión entre el jugador y la abeja...
                     if (colision) 
@@ -181,6 +158,55 @@ namespace PRACTICA1
                 // 9. RETARDO ENTRE FRAMES.
                 System.Threading.Thread.Sleep(delta);
             }
+        }
+
+        public static void Render(int abejaC, int abejaF, int jugC, int jugF, bool colision)
+        {
+            // Jugador:
+            Console.Clear();                                     // Limpiar la consola para un nuevo renderizado.                                
+            Console.SetCursorPosition(jugC, jugF);               // Establecer la posición del cursor para el jugador.
+            Console.ForegroundColor = ConsoleColor.DarkCyan;     // Configurar el color del texto para el jugador.
+            Console.Write(0);                                    // Mostrar el jugador en la posición del cursor especificada.
+
+            // Abeja:
+            Console.SetCursorPosition(abejaC, abejaF);           // Establecer la posición del cursor para la abeja.
+            Console.ForegroundColor = ConsoleColor.Yellow;       // Configurar el color del texto para la abeja.   
+            Console.Write("+");                                  // Mostrar la abeja en la posición del cursor especificada.
+        }
+
+        public static int PideDelta(int min, int max)
+        {
+
+        }
+
+        public static void InicializaPosiciones(int jugF, int jugC, int abejaF, int abejaC)
+        {
+            // Posicion inicial del player (esquina arriba izquierda).
+            jugF = jugC = 0;
+
+            // Posicion inicial de la abeja (esquina abajo derecha).
+            abejaF = ALTO - 1;
+            abejaC = ANCHO - 1;
+        }
+
+        public static char LeeInput()
+        {
+
+        }
+
+        public static void MueveJug(char c, int jugF, int jugC)
+        {
+
+        }
+
+        public static void MueveAbeja(int jugF, int jugC, int abejaF, int abejaC)
+        {
+
+        }
+
+        public static bool Colision(int jugF, int jugC, int abejaF, int abejaC)
+        {
+
         }
     }
 }
